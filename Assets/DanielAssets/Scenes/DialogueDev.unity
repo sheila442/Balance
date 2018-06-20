@@ -1156,6 +1156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterName: John
+  pressToInteract: 1
   dialogue:
   - reference: 1
     sentences:

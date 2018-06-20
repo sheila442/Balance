@@ -1,20 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerDialogueManager : MonoBehaviour {
 
+    [Tooltip("First chat baloon")]
     [SerializeField]
     private Text option1;
+    [Tooltip("First chat button")]
     [SerializeField]
     private OptionScript optionScriptBtn1;
+    [Tooltip("Second chat baloon")]
     [SerializeField]
     private Text option2;
+    [Tooltip("Second chat button")]
     [SerializeField]
     private OptionScript optionScriptBtn2;
+    [Tooltip("Second chat baloon")]
     [SerializeField]
     private Text option3;
+    [Tooltip("Third chat button")]
     [SerializeField]
     private OptionScript optionScriptBtn3;
     [SerializeField]

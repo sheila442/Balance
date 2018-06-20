@@ -1,21 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class OptionScript : MonoBehaviour {
 
+    [Tooltip("Player Dialogue Manager Script (Drag Object)")]
     [SerializeField]
     private PlayerDialogueManager playerDialogueManager;
 
-    //[HideInInspector]
-    public AIDialogue AIDialogue;
+    [HideInInspector] // Used for Recieving/Debuging only
+    public AIDialogue AIDialogue; // NPC AIDialogue Script
 
-    //[HideInInspector]
-    public int reference;
+    [HideInInspector] // Used for Recieving/Debuging only
+    public int reference; // Anwser ID reference
 
-    public void OnPointerDown()
+    public void OnPointerDown() // Called when Clicked
     {
-        playerDialogueManager.CloseOptions();
-        AIDialogue.RecieveAnswer(reference);
+        playerDialogueManager.CloseOptions(); // Close the player Dialogue
+        AIDialogue.RecieveAnswer(reference); // Send the answer ID reference to the NPC AIDialogue Script
     }
 }
