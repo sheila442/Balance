@@ -23,6 +23,7 @@ public class NPCDialogueManager : MonoBehaviour
 
     private Queue<string> sentences; // The Queue of sentences to be recieved
 
+    private AIDialogue _aiDialogue;
     private int _reference; // Global refer to the references
     private List<Dialogue> _dialogue; // Global refer to the Dialogue List
 
@@ -38,12 +39,13 @@ public class NPCDialogueManager : MonoBehaviour
 
     public void StartDialogue(List<Dialogue> dialogue, string name, int reference, AIDialogue aiDialogue) // Starts the Dialogue (Recieves the list of dialogues, name of character, reference (default 1), NPC AIDialogue Script)
     {
+        playerDialogueManager.enabled = true;
         animator.SetBool("isOpen", true); // Opening Text in Game
         nameText.text = name; // Setting the NPC name
         sentences.Clear(); // Clearing all the setences
         continueText.text = "Next..."; // Setting the Button for Next (Default) Can be modified by editor if needed
         _dialogue = dialogue; // Setting the global dialogue
-
+        _aiDialogue = aiDialogue;
         for (int i = 0; i < _dialogue.Count; i++) // Looping all the Dialogues
         {
             if (_dialogue[i].reference == reference) // Checking reference
@@ -51,9 +53,7 @@ public class NPCDialogueManager : MonoBehaviour
                 _reference = i; // Setting reference
             }
         }
-
-        playerDialogueManager.SetOptions(_dialogue[_reference].answers, aiDialogue); // Setting the options for the player
-
+        
         foreach (string sentence in _dialogue[_reference].sentences) // Looping every sentence related to the reference
         {
             sentences.Enqueue(sentence); // Enqueuing the sentences
@@ -68,7 +68,7 @@ public class NPCDialogueManager : MonoBehaviour
 
         if (sentences.Count == 0) // check before to close
         {
-            EndDialogue(); // Ends Dialogue
+            SendEndDialogue(); // Ends Dialogue
             return;
         }
 
@@ -81,10 +81,10 @@ public class NPCDialogueManager : MonoBehaviour
             continueText.text = "Quit"; // Change the button text to Quit
             if (_dialogue[_reference].answers.Count > 0) // If there are answers
             {
+                playerDialogueManager.SetOptions(_dialogue[_reference].answers, _aiDialogue); // Setting the options for the player
                 playerDialogueManager.OpenOptions(); // Send the answers to the player
             }
         }
-
     }
 
     IEnumerator TypeSentence(string sentence) // Adds of typing effect
@@ -97,9 +97,16 @@ public class NPCDialogueManager : MonoBehaviour
         }
     }
 
-    public void EndDialogue()
+    public void RecieveEndDialogue()
     {
         animator.SetBool("isOpen", false); // Set isOpen false for the animator
+        playerDialogueManager.CloseOptions(); // Call the same function for the player
+    }
+
+    public void SendEndDialogue()
+    {
+        animator.SetBool("isOpen", false); // Set isOpen false for the animator
+        _aiDialogue.RecieveEndDialogue();
         playerDialogueManager.CloseOptions(); // Call the same function for the player
     }
 }

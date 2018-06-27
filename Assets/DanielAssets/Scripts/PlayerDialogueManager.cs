@@ -56,15 +56,19 @@ public class PlayerDialogueManager : MonoBehaviour {
             optionScriptBtn2.reference = answers[0].reference;
             optionScriptBtn2.AIDialogue = aiDialogue;
         }
-        else // if has no answer
+        else // if has no answers
         {
-            optionScriptBtn2.gameObject.SetActive(false); // hide second button
+            CloseOptions(); // close the options
         }
     }
     
     public void CloseOptions()
     {
         animator.SetBool("isOpen", false); // close options
+        optionScriptBtn1.gameObject.SetActive(false);
+        optionScriptBtn2.gameObject.SetActive(false); // hide all buttons
+        optionScriptBtn3.gameObject.SetActive(false);
+        this.enabled = false;
     }
 
     public void OpenOptions()

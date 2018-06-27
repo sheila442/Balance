@@ -35,6 +35,7 @@ public class AIDialogue : MonoBehaviour {
     [SerializeField]
     [Tooltip("Entire dialogue is here")]
     private List<Dialogue> dialogue;
+
     [SerializeField]
     [Tooltip("Dialogue manager (GameObject inside canvas)")]
     private NPCDialogueManager npcDialogueManager;
@@ -48,6 +49,10 @@ public class AIDialogue : MonoBehaviour {
                 if (!dialogueStarted) // if dialogue is not started
                 {
                     StartDialogue();
+                }
+                else
+                {
+                    NextSentence(); // if dialogue started go to next sentence
                 }
             }
         }
@@ -73,7 +78,7 @@ public class AIDialogue : MonoBehaviour {
         if (other.tag == "Player")
         {
             isPlayerClose = false;
-            EndDialogue(); // Must call AIDialogue end instead of npcDialogueManager
+            SendEndDialogue(); // Must call Send AIDialogue end instead of npcDialogueManager
         }
     }
 
@@ -84,10 +89,20 @@ public class AIDialogue : MonoBehaviour {
         npcDialogueManager.StartDialogue(dialogue, characterName, defaultReference, this); // Starting new Dialogue
     }
 
-    public void EndDialogue()
+    public void NextSentence()
+    {
+        npcDialogueManager.DisplayNextSentence(); // Next sentence
+    }
+
+    public void SendEndDialogue()
     {
         dialogueStarted = false;
-        npcDialogueManager.EndDialogue();  // Closes the NPC text
+        npcDialogueManager.RecieveEndDialogue();  // Closes the NPC text
+    }
+
+    public void RecieveEndDialogue()
+    {
+        dialogueStarted = false;
     }
 
     public void RecieveAnswer(int reference)
@@ -104,7 +119,7 @@ public class AIDialogue : MonoBehaviour {
             }
         }
         //npcDialogueManager.DisplayNextSentence(); // When recieving a answer we must start a new Dialogue (Will change for adding sentences...)
-        EndDialogue();
+        //SendEndDialogue(); // End old dialogue before starting new
         npcDialogueManager.StartDialogue(dialogue, characterName, reference, this); // Start a new Dialogue
     }
 }

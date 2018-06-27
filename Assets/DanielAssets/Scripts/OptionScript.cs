@@ -11,7 +11,7 @@ public class OptionScript : MonoBehaviour {
 
     [HideInInspector] // Used for Recieving/Debuging only
     public int reference; // Anwser ID reference
-
+    
     public void OnPointerDown() // Called when Clicked
     {
         playerDialogueManager.CloseOptions(); // Close the player Dialogue
