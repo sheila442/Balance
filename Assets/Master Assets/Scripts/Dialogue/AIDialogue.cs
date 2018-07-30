@@ -10,7 +10,7 @@ public class AIDialogue : MonoBehaviour {
     private string characterName;
 
     [SerializeField]
-    [Tooltip("If true. Player will need to press 'E' to interact")]
+    [Tooltip("If true. Player will need to press 'Interact button' to interact")]
     private bool pressToInteract;
     [SerializeField]
     [Tooltip("If true. Player won't need to press for the first time")]
@@ -44,7 +44,7 @@ public class AIDialogue : MonoBehaviour {
     {
         if (isPlayerClose) // if player is close
         {
-            if (Input.GetKeyDown(KeyCode.E)) // if player press 'E'
+            if (Input.GetButtonDown("Interact") || Input.GetButtonDown("Interact P2")) // if player press 'E'
             {
                 if (!dialogueStarted) // if dialogue is not started
                 {
